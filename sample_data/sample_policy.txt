@@ -1,0 +1,30 @@
+COMPANY COMPLIANCE POLICY DOCUMENT
+Company: TechFinance Solutions Pvt Ltd
+Last Updated: January 2024
+
+1. KYC POLICY
+- Customer verification done at account opening
+- PAN required for transactions above 1 lakh
+- KYC renewal every 5 years for all customers
+- Basic video verification optional
+
+2. EMPLOYEE TRADING POLICY
+- Employees must declare trades within 5 days
+- Trading window closes 24 hours before results
+- UPSI holders must inform HR within 1 week
+
+3. BOARD MEETING POLICY
+- Minimum 2 board meetings per year
+- Physical attendance mandatory for all meetings
+- Minutes circulated within 30 days
+- Digital signatures optional
+
+4. DATA PROTECTION POLICY
+- Customer data stored for 3 years
+- Basic encryption for all data
+- Annual security audit required
+
+5. PAYMENT PROCESSING POLICY
+- Digital payments up to 2 lakhs without additional verification
+- Wallet KYC updated annually
+- Transaction monitoring monthly
