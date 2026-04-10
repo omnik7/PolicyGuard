@@ -1,0 +1,27 @@
+from groq import Groq
+
+client = Groq(api_key="XAI_API_KEY")
+
+def analyze_circular(circular_content, company_policy):
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": "You are PolicyGuard, an expert AI compliance analyst for Indian companies."},
+            {"role": "user", "content": f"Analyze this circular:\n{circular_content}\n\nCompany Policy:\n{company_policy}\n\nGenerate report with: 1.SUMMARY 2.IMPACT LEVEL 3.AFFECTED AREAS 4.REQUIRED ACTIONS 5.DEADLINE 6.PENALTY 7.AMENDMENTS"}
+        ],
+        temperature=0.3,
+        max_tokens=2000
+    )
+    return response.choices[0].message.content
+
+def generate_amendment(circular_content, policy_section):
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": "You are a legal compliance expert for Indian companies."},
+            {"role": "user", "content": f"Circular:\n{circular_content}\n\nRewrite this policy to be compliant:\n{policy_section}"}
+        ],
+        temperature=0.2,
+        max_tokens=1000
+    )
+    return response.choices[0].message.content
