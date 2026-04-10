@@ -1,7 +1,7 @@
 # 🛡️ PolicyGuard 
 
 **Autonomous Compliance & Regulatory Intelligence System**  
-*Built for [Insert Hackathon Name here]*
+*Built for Prix Robotics
 
 ## 📌 The Problem
 When government regulations change, companies spend hundreds of hours using legal teams to manually compare old laws with new laws to ensure their internal policies remain compliant. This process is slow, expensive, and prone to human error.
