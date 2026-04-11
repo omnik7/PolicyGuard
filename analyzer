@@ -25,3 +25,53 @@ def generate_amendment(circular_content, policy_section):
         max_tokens=1000
     )
     return response.choices[0].message.content
+def detect_changes(old_circular, new_circular):
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": "You are a regulatory change detection expert."},
+            {"role": "user", "content": f"""
+Compare these two versions of a regulatory circular and detect EXACTLY what changed:
+
+OLD VERSION:
+{old_circular}
+
+NEW VERSION:
+{new_circular}
+
+List every change as:
+- ADDED: [what was added]
+- REMOVED: [what was removed]  
+- MODIFIED: [what was changed from X to Y]
+"""}
+        ],
+        max_tokens=1000
+    )
+    return response.choices[0].message.content
+def detect_changes(old_circular, new_circular):
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": "You are a regulatory change detection expert for Indian companies."},
+            {"role": "user", "content": f"""
+Compare these two versions of a regulatory circular and detect EXACTLY what changed:
+
+OLD VERSION:
+{old_circular}
+
+NEW VERSION:
+{new_circular}
+
+List every change clearly as:
+✅ ADDED: [what was newly added]
+❌ REMOVED: [what was removed]
+🔄 MODIFIED: [what changed from X to Y]
+⚠️ IMPACT: [why this change matters]
+
+Be specific with numbers, dates and requirements.
+"""}
+        ],
+        temperature=0.3,
+        max_tokens=1500
+    )
+    return response.choices[0].message.content
