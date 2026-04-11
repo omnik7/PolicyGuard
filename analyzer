@@ -1,13 +1,43 @@
+import os
 from groq import Groq
+from dotenv import load_dotenv
 
-client = Groq(api_key="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")
+load_dotenv(override=True)
+
+# Try both ways to get API key
+GROQ_API_KEY = os.getenv("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")
+
+try:
+    import streamlit as st
+    GROQ_API_KEY = st.secrets.get("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", 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)
+except:
+    pass
+
+client = Groq(api_key=GROQ_API_KEY)
 
 def analyze_circular(circular_content, company_policy):
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": "You are PolicyGuard, an expert AI compliance analyst for Indian companies."},
-            {"role": "user", "content": f"Analyze this circular:\n{circular_content}\n\nCompany Policy:\n{company_policy}\n\nGenerate report with: 1.SUMMARY 2.IMPACT LEVEL 3.AFFECTED AREAS 4.REQUIRED ACTIONS 5.DEADLINE 6.PENALTY 7.AMENDMENTS"}
+            {"role": "user", "content": f"""
+Analyze this regulatory circular and generate a professional compliance impact report.
+
+REGULATORY CIRCULAR:
+{circular_content}
+
+COMPANY CURRENT POLICY:
+{company_policy}
+
+Generate report with:
+1. SUMMARY (2-3 lines of what changed)
+2. IMPACT LEVEL (High/Medium/Low with reason)
+3. AFFECTED AREAS in company policy
+4. REQUIRED ACTIONS (numbered list)
+5. DEADLINE (when to comply)
+6. PENALTY IF IGNORED
+7. RECOMMENDED POLICY AMENDMENTS
+"""}
         ],
         temperature=0.3,
         max_tokens=2000
@@ -19,35 +49,21 @@ def generate_amendment(circular_content, policy_section):
         model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": "You are a legal compliance expert for Indian companies."},
-            {"role": "user", "content": f"Circular:\n{circular_content}\n\nRewrite this policy to be compliant:\n{policy_section}"}
+            {"role": "user", "content": f"""
+Based on this regulatory circular:
+{circular_content}
+
+Rewrite this company policy section to be fully compliant:
+{policy_section}
+
+Provide ONLY the updated policy text, ready to copy-paste.
+"""}
         ],
         temperature=0.2,
         max_tokens=1000
     )
     return response.choices[0].message.content
-def detect_changes(old_circular, new_circular):
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {"role": "system", "content": "You are a regulatory change detection expert."},
-            {"role": "user", "content": f"""
-Compare these two versions of a regulatory circular and detect EXACTLY what changed:
 
-OLD VERSION:
-{old_circular}
-
-NEW VERSION:
-{new_circular}
-
-List every change as:
-- ADDED: [what was added]
-- REMOVED: [what was removed]  
-- MODIFIED: [what was changed from X to Y]
-"""}
-        ],
-        max_tokens=1000
-    )
-    return response.choices[0].message.content
 def detect_changes(old_circular, new_circular):
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
@@ -67,8 +83,6 @@ List every change clearly as:
 ❌ REMOVED: [what was removed]
 🔄 MODIFIED: [what changed from X to Y]
 ⚠️ IMPACT: [why this change matters]
-
-Be specific with numbers, dates and requirements.
 """}
         ],
         temperature=0.3,
