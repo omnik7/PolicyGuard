@@ -1,6 +1,6 @@
 from groq import Groq
 
-client = Groq(api_key="XAI_API_KEY")
+client = Groq(api_key="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")
 
 def analyze_circular(circular_content, company_policy):
     response = client.chat.completions.create(
